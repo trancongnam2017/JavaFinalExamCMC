@@ -7,36 +7,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.Java.model.FresherCandidate;
+import com.Java.model.ExperienceCandidate;
 import com.Java.sqlserver.DBConnection;
 
 
 
-public class FresherCandidateDAO implements DAOInterface<FresherCandidate>{
+public class ExperienceCandidateDAO implements DAOInterface<ExperienceCandidate> {
 
         @Override
-        public FresherCandidate addNew(FresherCandidate fresherCandidate) {
-            if(fresherCandidate != null) {
+        public ExperienceCandidate addNew(ExperienceCandidate experienceCandidate) {
+            if(experienceCandidate != null) {
                 Connection cnn = DBConnection.openConnection();
                 PreparedStatement ps = null;
                 if(cnn!=null) {
                     try {
-                        String sql = "INSERT INTO Candidate(FirstName,LastName,BirthDate,Address,Phone,Email,Candidate_type,Graduation_date,Graduation_rank,Education)"
-                                + " VALUES(?,?,?,?,?,?,?,?,?,?)";
+                        String sql = "INSERT INTO Candidate(FirstName,LastName,BirthDate,Address,Phone,Email,Candidate_type,ExpInYear,ProSkill)"
+                                + " VALUES(?,?,?,?,?,?,?,?,?)";
                         ps = cnn.prepareStatement(sql);
-                        ps.setString(1, fresherCandidate.getFirstName());
-                        ps.setString(2, fresherCandidate.getLastName());
-                        ps.setInt(3, fresherCandidate.getBirthDate());
-                        ps.setString(4, fresherCandidate.getAddress());
-                        ps.setString(5, fresherCandidate.getPhone());
-                        ps.setString(6, fresherCandidate.getEmail());
-                        ps.setInt(7, 1);
-                        ps.setString(8, fresherCandidate.getGraduationDate());
-                        ps.setString(9, fresherCandidate.getGraduationRank());
-                        ps.setString(10, fresherCandidate.getEducation());
+                        ps.setString(1, experienceCandidate.getFirstName());
+                        ps.setString(2, experienceCandidate.getLastName());
+                        ps.setInt(3, experienceCandidate.getBirthDate());
+                        ps.setString(4, experienceCandidate.getAddress());
+                        ps.setString(5, experienceCandidate.getPhone());
+                        ps.setString(6, experienceCandidate.getEmail());
+                        ps.setInt(7, 0);
+                        ps.setInt(8, experienceCandidate.getExpInYear());
+                        ps.setString(9, experienceCandidate.getProSkill());
                         int executeUpdate = ps.executeUpdate();
                         if(executeUpdate > 0) {
-                            return fresherCandidate;
+                            return experienceCandidate;
                         }
                         return null;
                     } catch (SQLException e) {
@@ -50,14 +49,14 @@ public class FresherCandidateDAO implements DAOInterface<FresherCandidate>{
         }
 
         @Override
-        public List<FresherCandidate> getAll() {
-            List<FresherCandidate> list = null;
+        public List<ExperienceCandidate> getAll() {
+            List<ExperienceCandidate> list = null;
             Connection cnn = DBConnection.openConnection();
             PreparedStatement ps = null;
             ResultSet rs = null;
             if(cnn!=null) {
                 try {
-                    String sql = "SELECT FirstName, LastName, BirthDate, Address, Phone, Email, Candidate_type,Graduation_date, Graduation_rank ,Education FROM Candidate";
+                    String sql = "SELECT FirstName, LastName, BirthDate, Address, Phone, Email, Candidate_type, ExpInYear, ProSkill FROM Candidate";
                     ps = cnn.prepareStatement(sql);
                     rs = ps.executeQuery();
                     list = new ArrayList<>();
@@ -69,11 +68,10 @@ public class FresherCandidateDAO implements DAOInterface<FresherCandidate>{
                         String phone = rs.getString("Phone");
                         String email = rs.getString("Email");
                         int candidateType = rs.getInt("Candidate_type");
-                        String graduationDate = rs.getString("Graduation_date");
-                        String graduationRank = rs.getString("Graduation_rank");
-                        String education = rs.getString("Education");
-                        FresherCandidate fresherCandidate = new FresherCandidate(firstName, lastName, birthDate, address, phone, email, candidateType, graduationDate, graduationRank, education);
-                        list.add(fresherCandidate);
+                        int expInYear = rs.getInt("ExpInYear");
+                        String proSkill = rs.getString("ProSkill");
+                        ExperienceCandidate experienceCandidate = new ExperienceCandidate(firstName, lastName, birthDate, address, phone, email, candidateType, expInYear, proSkill);
+                        list.add(experienceCandidate);
                     }
                     return list;
                 } catch (SQLException e) {
@@ -87,3 +85,4 @@ public class FresherCandidateDAO implements DAOInterface<FresherCandidate>{
         }
 
     }
+

@@ -2,8 +2,6 @@ package com.Java.model;
 
 import java.util.Scanner;
 
-
-
 public abstract class Candidate implements ICandidate{
         private String firstName;
         private String lastName;
@@ -75,7 +73,7 @@ public abstract class Candidate implements ICandidate{
             System.out.println("Enter Birthday:");
             this.birthDate = new Scanner(System.in).nextInt();
             while (this.birthDate < 1900 || this.birthDate > 2018) {
-                System.out.println("BirthDay must be > 1900 and <2000");
+                System.out.println("1990<BirthDay <2002");
                 this.birthDate = new Scanner(System.in).nextInt();
             }
             System.out.println("Enter Address:");
